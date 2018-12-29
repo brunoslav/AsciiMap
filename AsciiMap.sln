@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiMap.Core", "AsciiMap.Core\AsciiMap.Core.csproj", "{8BA25524-7227-487F-B8E2-4C68A192C55C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiMap.Tests", "AsciiMap.Tests\AsciiMap.Tests.csproj", "{74D46FF7-7B15-46FD-991A-5A0E3833CD60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{8BA25524-7227-487F-B8E2-4C68A192C55C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BA25524-7227-487F-B8E2-4C68A192C55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BA25524-7227-487F-B8E2-4C68A192C55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
