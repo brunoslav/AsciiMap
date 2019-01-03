@@ -53,7 +53,7 @@ namespace AsciiMap.Core
             }
 
             if (!startingPositionFound)
-                throw new NoStartingPosition();
+                throw new NoStartingPositionException();
 
             if (!endingPositionFound)
                 throw new NoEndingPositionException();

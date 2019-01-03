@@ -3,9 +3,9 @@
 namespace AsciiMap.Core.Exceptions
 {
     [Serializable]
-    public class NoStartingPosition : Exception
+    public class NoStartingPositionException : Exception
     {
-        public NoStartingPosition()
+        public NoStartingPositionException()
         {
         }
     }

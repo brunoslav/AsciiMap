@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiMap.Core", "AsciiMap.Core\AsciiMap.Core.csproj", "{8BA25524-7227-487F-B8E2-4C68A192C55C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsciiMap.Core", "AsciiMap.Core\AsciiMap.Core.csproj", "{8BA25524-7227-487F-B8E2-4C68A192C55C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiMap.Tests", "AsciiMap.Tests\AsciiMap.Tests.csproj", "{74D46FF7-7B15-46FD-991A-5A0E3833CD60}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsciiMap.Tests", "AsciiMap.Tests\AsciiMap.Tests.csproj", "{74D46FF7-7B15-46FD-991A-5A0E3833CD60}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsciiMap.ConsoleApp", "AsciiMap.Console\AsciiMap.ConsoleApp.csproj", "{99D8B97D-9E15-4E79-9D64-5A8367088CBE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74D46FF7-7B15-46FD-991A-5A0E3833CD60}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D8B97D-9E15-4E79-9D64-5A8367088CBE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D8B97D-9E15-4E79-9D64-5A8367088CBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D8B97D-9E15-4E79-9D64-5A8367088CBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D8B97D-9E15-4E79-9D64-5A8367088CBE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

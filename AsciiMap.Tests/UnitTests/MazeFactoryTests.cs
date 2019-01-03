@@ -39,7 +39,7 @@ namespace AsciiMap.Tests.UnitTests
         [Fact]
         public void NoStartingPosition()
         {
-            Assert.Throws<NoStartingPosition>(() => MazeBoardFactory.CreateMazeBoard("-A-x"));
+            Assert.Throws<NoStartingPositionException>(() => MazeBoardFactory.CreateMazeBoard("-A-x"));
         }
 
         [Fact]
