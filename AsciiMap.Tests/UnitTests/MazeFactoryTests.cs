@@ -10,8 +10,7 @@ namespace AsciiMap.Tests.UnitTests
         [Fact]
         public void SimpleMazeCreated()
         {
-            var maze = MazeFactory.CreateMaze("@-A-x");
-
+            var maze = MazeBoardFactory.CreateMazeBoard("@-A-x");
             Assert.NotNull(maze);
         }
 
@@ -24,44 +23,35 @@ namespace AsciiMap.Tests.UnitTests
                 "x-B-+   C",
                 "    |   |",
                 "    +---+");
-            var maze = MazeFactory.CreateMaze(input);
-
+            var maze = MazeBoardFactory.CreateMazeBoard(input);
             Assert.NotNull(maze);
         }
 
-        [Fact]
-        public void EmptyInput()
-        {
-            var ex = Assert.Throws<EmptyInputException>(() => MazeFactory.CreateMaze(""));
-            Assert.NotNull(ex);
-        }
+
 
         [Fact]
         public void NonAsciiCharacters()
         {
-            var ex = Assert.Throws<NonAsciiCharacterException>(() => MazeFactory.CreateMaze("@-é-x"));
-            Assert.Equal("Invalid character: é", ex.Message);
+            var ex = Assert.Throws<NonAsciiCharacterException>(() => MazeBoardFactory.CreateMazeBoard("@-é-x"));
+            Assert.Equal('é', ex.NonAsciiChar);
         }
 
         [Fact]
         public void NoStartingPosition()
         {
-            var ex = Assert.Throws<NoStartingPosition>(() => MazeFactory.CreateMaze("-A-x"));
-            Assert.NotNull(ex);
+            Assert.Throws<NoStartingPosition>(() => MazeBoardFactory.CreateMazeBoard("-A-x"));
         }
 
         [Fact]
         public void NoEndingPosition()
         {
-            var ex = Assert.Throws<NoEndingPositionException>(() => MazeFactory.CreateMaze("@-A-"));
-            Assert.NotNull(ex);
+            Assert.Throws<NoEndingPositionException>(() => MazeBoardFactory.CreateMazeBoard("@-A-"));
         }
 
         [Fact]
         public void DuplicateStartingPosition()
         {
-            var ex = Assert.Throws<DuplicateStartingPositionException>(() => MazeFactory.CreateMaze("@-A-@-x"));
-            Assert.NotNull(ex);
+            var ex = Assert.Throws<DuplicateStartingPositionException>(() => MazeBoardFactory.CreateMazeBoard("@-A-@-x"));
         }
 
         [Fact]
@@ -74,8 +64,7 @@ namespace AsciiMap.Tests.UnitTests
               "    |   |",
               "    +---+");
 
-            var ex = Assert.Throws<UnevenRowSizeException>(() => MazeFactory.CreateMaze(input));
-            Assert.NotNull(ex);
+            var ex = Assert.Throws<UnevenRowSizeException>(() => MazeBoardFactory.CreateMazeBoard(input));
         }
     }
 }

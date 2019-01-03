@@ -1,42 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
 using AsciiMap.Core.Exceptions;
 
 namespace AsciiMap.Core
 {
-    public class MazeFactory
+    public class MazeBoardFactory
     {
-        public static Maze CreateMaze(string input)
+        public static MazeBoard CreateMazeBoard(string mazeMap)
         {
-            if (string.IsNullOrWhiteSpace(input))
-                throw new EmptyInputException();
+            if (string.IsNullOrEmpty(mazeMap))
+                throw new EmptyMazeBoardException();
 
-            var inputRows = input.Split(Environment.NewLine);
+            var inputRows = mazeMap.Split(Environment.NewLine);
+            int columns = inputRows[0].Length;
 
             bool startingPositionFound = false;
             bool endingPositionFound = false;
 
             int startingRowIndex = -1;
             int startingColumIndex = -1;
-            int columns = -1;
 
-            List<char[]> passedRows = new List<char[]>();
+            char[,] parsedElements = new char[inputRows.Length, columns];
 
             for (int currentRowIndex = 0; currentRowIndex < inputRows.Length; currentRowIndex++)
             {
                 var inputRow = inputRows[currentRowIndex];
 
-                if (columns == -1)
-                    columns = inputRow.Length;
-                else if (columns != inputRow.Length)
+                if (columns != inputRow.Length)
                     throw new UnevenRowSizeException();
 
-                char[] rowChars = new char[columns];
-
-                int currentColumnIndex = 0;
-
-                foreach (char c in inputRow)
+                for (int currentColumnIndex = 0; currentColumnIndex < inputRow.Length; currentColumnIndex++)
                 {
+                    char c = inputRow[currentColumnIndex];
+
                     if (!IsAcsii(c))
                         throw new NonAsciiCharacterException(c);
 
@@ -53,10 +48,8 @@ namespace AsciiMap.Core
                     if (IsEndingChar(c))
                         endingPositionFound = true;
 
-                    rowChars[currentColumnIndex++] = c;
+                    parsedElements[currentRowIndex, currentColumnIndex] = c;
                 }
-
-                passedRows.Add(rowChars);
             }
 
             if (!startingPositionFound)
@@ -65,7 +58,7 @@ namespace AsciiMap.Core
             if (!endingPositionFound)
                 throw new NoEndingPositionException();
 
-            return new Maze(passedRows.ToArray(), passedRows.Count, columns, startingRowIndex, startingColumIndex);
+            return new MazeBoard(parsedElements, inputRows.Length, columns, startingRowIndex, startingColumIndex);
         }
 
         private static bool IsAcsii(char c)

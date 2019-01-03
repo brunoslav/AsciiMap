@@ -5,12 +5,11 @@ namespace AsciiMap.Core.Exceptions
     [Serializable]
     public class NonAsciiCharacterException : Exception
     {
-        public NonAsciiCharacterException()
-        {
-        }
+        public char NonAsciiChar { get; }
 
-        public NonAsciiCharacterException(char c) : base(FormattableString.Invariant($"Non-ascii character: {c}"))
+        public NonAsciiCharacterException(char nonAsciiChar)
         {
+            NonAsciiChar = nonAsciiChar;
         }
     }
 }
