@@ -6,7 +6,7 @@ using Xunit;
 
 namespace AsciiMap.Tests.IntegrationTests
 {
-    public class SolveMazeTests
+    public class SolveMapTests
     {
         private readonly string[] MockFilePath = new string[] { string.Empty };
 
@@ -15,21 +15,21 @@ namespace AsciiMap.Tests.IntegrationTests
         {
             var output = RedirectOutput(() =>
             {
-                MazeSolver mazeSolver = new MazeSolver(null);
-                mazeSolver.Run(null);
+                AsciiMapSolver mapSolver = new AsciiMapSolver(null);
+                mapSolver.Run(null);
             });
 
             Assert.Equal(FormattableString.Invariant($"Empty file path{ Environment.NewLine}"), output.ToString());
         }
 
         [Fact]
-        public void FileDoesntExist()
+        public void MapFileDoesntExist()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(false);
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
             Assert.Equal(FormattableString.Invariant($"Non-existing file path{ Environment.NewLine}"), output.ToString());
@@ -43,21 +43,21 @@ namespace AsciiMap.Tests.IntegrationTests
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns("@-@");
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
             Assert.Equal(FormattableString.Invariant($"Multiple starting positions in map{ Environment.NewLine}"), output.ToString());
         }
 
         [Fact]
-        public void EmptyMazeBoard()
+        public void EmptyMap()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns("");
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
 
             });
 
@@ -65,17 +65,17 @@ namespace AsciiMap.Tests.IntegrationTests
         }
 
         [Fact]
-        public void InvalidMazePath()
+        public void InvalidMapPath()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(string.Join(Environment.NewLine, "@-+ ", "  | ", "x-+-"));
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
-            Assert.Equal(FormattableString.Invariant($"Invalid maze, can't determine next step. Current resolved path: @-+|+{ Environment.NewLine}"), output.ToString());
+            Assert.Equal(FormattableString.Invariant($"Invalid map, can't determine next step. Current resolved path: @-+|+{ Environment.NewLine}"), output.ToString());
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace AsciiMap.Tests.IntegrationTests
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns("@-a");
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
 
             });
 
@@ -101,7 +101,7 @@ namespace AsciiMap.Tests.IntegrationTests
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns("@-é-as--x");
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
 
             });
 
@@ -116,7 +116,7 @@ namespace AsciiMap.Tests.IntegrationTests
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns("-sa-x");
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
 
             });
 
@@ -131,7 +131,7 @@ namespace AsciiMap.Tests.IntegrationTests
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(string.Join(Environment.NewLine, "@--+", "--x"));
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
 
             });
 
@@ -147,7 +147,7 @@ namespace AsciiMap.Tests.IntegrationTests
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
                 mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Throws<Exception>();
                 string[] args = new string[] { "test" };
-                new MazeSolver(mockFileSystem.Object).Run(args);
+                new AsciiMapSolver(mockFileSystem.Object).Run(args);
 
             });
 
@@ -155,47 +155,46 @@ namespace AsciiMap.Tests.IntegrationTests
         }
 
         [Fact]
-        public void SimpleMazeSolved()
+        public void SimpleMapSolved()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
-                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.SimpleMaze);
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.SimpleMap);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
-            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.SimpleMazeLetters}{Environment.NewLine}Path as characters: {TestData.SimpleMazeCharacterPath}{Environment.NewLine}"), output);
+            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.SimpleMapLetters}{Environment.NewLine}Path as characters: {TestData.SimpleMapCharacterPath}{Environment.NewLine}"), output);
         }
 
         [Fact]
-        public void ComplexMaze1Solved()
+        public void ComplexMap1Solved()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
-                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.ComplexMaze1);
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.ComplexMap1);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
-            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.ComplexMaze1Letters}{Environment.NewLine}Path as characters: {TestData.ComplexMaze1CharacterPath}{Environment.NewLine}"), output);
+            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.ComplexMap1Letters}{Environment.NewLine}Path as characters: {TestData.ComplexMap1CharacterPath}{Environment.NewLine}"), output);
         }
 
         [Fact]
-        public void ComplexMaze2Solved()
+        public void ComplexMap2Solved()
         {
             var output = RedirectOutput(() =>
             {
                 var mockFileSystem = new Mock<IFileSystem>();
                 mockFileSystem.Setup(m => m.Exists(It.IsAny<string>())).Returns(true);
-                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.ComplexMaze2);
-                new MazeSolver(mockFileSystem.Object).Run(MockFilePath);
+                mockFileSystem.Setup(m => m.ReadAllText(It.IsAny<string>())).Returns(TestData.ComplexMap2);
+                new AsciiMapSolver(mockFileSystem.Object).Run(MockFilePath);
             });
 
-            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.ComplexMaze2Letters}{Environment.NewLine}Path as characters: {TestData.ComplexMaze2CharacterPath}{Environment.NewLine}"), output);
+            Assert.Equal(FormattableString.Invariant($"Letters: {TestData.ComplexMap2Letters}{Environment.NewLine}Path as characters: {TestData.ComplexMap2CharacterPath}{Environment.NewLine}"), output);
         }
-
 
         private string RedirectOutput(Action action)
         {

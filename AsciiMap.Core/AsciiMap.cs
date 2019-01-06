@@ -3,14 +3,14 @@ using AsciiMap.Core.Exceptions;
 
 namespace AsciiMap.Core
 {
-    public class Maze
+    public class AsciiMap
     {
-        public static MazeSolution SolveMaze(string mazeMap)
+        public static AsciiMapSolution FindPath(string asciiMap)
         {
-            return SolveMaze(MazeBoardFactory.CreateMazeBoard(mazeMap));
+            return FindPath(AsciiMapBoardFactory.CreateBoard(asciiMap));
         }
 
-        private static MazeSolution SolveMaze(MazeBoard mazeBoard)
+        private static AsciiMapSolution FindPath(AsciiMapBoard mapBoard)
         {
             var letters = new StringBuilder();
             var characterPath = new StringBuilder();
@@ -19,65 +19,65 @@ namespace AsciiMap.Core
 
             while (true)
             {
-                var currentElement = mazeBoard.CurrentElement;
+                var currentElement = mapBoard.CurrentElement;
                 characterPath.Append(currentElement);
 
                 if (currentElement == Constants.EndingPositionMark)
                     break;
 
-                if (char.IsLetter(currentElement) && !mazeBoard.CurrentPositionVisited)
+                if (char.IsLetter(currentElement) && !mapBoard.CurrentPositionVisited)
                     letters.Append(currentElement);
 
-                currentDirection = NextMoveDirection(currentDirection, mazeBoard, characterPath);
+                currentDirection = NextMoveDirection(currentDirection, mapBoard, characterPath);
 
                 if (currentDirection == MoveDirection.None)
-                    throw new InvalidMazePathException(characterPath.ToString());
+                    throw new InvalidMapPathException(characterPath.ToString());
 
-                mazeBoard.Move(currentDirection);
+                mapBoard.Move(currentDirection);
             }
 
-            return new MazeSolution(letters.ToString(), characterPath.ToString());
+            return new AsciiMapSolution(letters.ToString(), characterPath.ToString());
         }
 
-        private static MoveDirection NextMoveDirection(MoveDirection currentDirection, MazeBoard mazeBoard, StringBuilder characterPath)
+        private static MoveDirection NextMoveDirection(MoveDirection currentDirection, AsciiMapBoard mapBoard, StringBuilder characterPath)
         {
             var direction = currentDirection;
 
             if (currentDirection == MoveDirection.None)
             {
-                direction = DetermineDirection(MoveDirection.Up, MoveDirection.Right, mazeBoard, characterPath);
-                direction = DetermineDirection(direction, MoveDirection.Down, mazeBoard, characterPath);
-                direction = DetermineDirection(direction, MoveDirection.Left, mazeBoard, characterPath);
+                direction = DetermineDirection(MoveDirection.Up, MoveDirection.Right, mapBoard, characterPath);
+                direction = DetermineDirection(direction, MoveDirection.Down, mapBoard, characterPath);
+                direction = DetermineDirection(direction, MoveDirection.Left, mapBoard, characterPath);
             }
-            else if (!mazeBoard.CanMove(currentDirection))
+            else if (!mapBoard.CanMove(currentDirection))
             {
                 if (currentDirection == MoveDirection.Up || currentDirection == MoveDirection.Down)
-                    direction = DetermineDirection(MoveDirection.Left, MoveDirection.Right, mazeBoard, characterPath);
+                    direction = DetermineDirection(MoveDirection.Left, MoveDirection.Right, mapBoard, characterPath);
                 else if (currentDirection == MoveDirection.Left || currentDirection == MoveDirection.Right)
-                    direction = DetermineDirection(MoveDirection.Up, MoveDirection.Down, mazeBoard, characterPath);
+                    direction = DetermineDirection(MoveDirection.Up, MoveDirection.Down, mapBoard, characterPath);
             }
 
             return direction;
         }
 
-        private static MoveDirection DetermineDirection(MoveDirection first, MoveDirection second, MazeBoard mazeBoard, StringBuilder characterPath)
+        private static MoveDirection DetermineDirection(MoveDirection first, MoveDirection second, AsciiMapBoard mapBoard, StringBuilder characterPath)
         {
-            var canGoFirst = first != MoveDirection.None && mazeBoard.CanMove(first);
-            var canGoSecond = second != MoveDirection.None && mazeBoard.CanMove(second);
+            var canGoFirst = first != MoveDirection.None && mapBoard.CanMove(first);
+            var canGoSecond = second != MoveDirection.None && mapBoard.CanMove(second);
 
-            var isFirstDirectionElement = InDirection(first, mazeBoard.PeekElement(first));
-            var isSecondDirectionElement = InDirection(second, mazeBoard.PeekElement(second));
+            var isFirstDirectionElement = InDirection(first, mapBoard.PeekElement(first));
+            var isSecondDirectionElement = InDirection(second, mapBoard.PeekElement(second));
 
             //both directions shouldn't be valid
             if (canGoFirst && isFirstDirectionElement && canGoSecond && isSecondDirectionElement)
-                throw new InvalidMazePathException(characterPath.ToString());
+                throw new InvalidMapPathException(characterPath.ToString());
             else if (canGoFirst && isFirstDirectionElement)
                 return first;
             else if (canGoSecond && isSecondDirectionElement)
                 return second;
             //there is no direction element in any direction, in that case one direction should be empty
             else if (canGoFirst && canGoSecond)
-                throw new InvalidMazePathException(characterPath.ToString());
+                throw new InvalidMapPathException(characterPath.ToString());
             else if (canGoFirst)
                 return first;
             else if (canGoSecond)

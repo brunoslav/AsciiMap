@@ -3,22 +3,22 @@
 [assembly: InternalsVisibleTo("AsciiMap.Tests")]
 namespace AsciiMap.Core
 {
-    public class MazeBoard
+    public class AsciiMapBoard
     {
         private const int PositionVisited = 1;
 
-        private readonly char[,] _mazeMap;
-        private readonly int[,] _mazeTraversal;
+        private readonly char[,] _asciiMap;
+        private readonly int[,] _mapTraversal;
         private readonly int _rows;
         private readonly int _columns;
 
         private int _currentRowIndex;
         private int _currentColumnIndex;
 
-        internal MazeBoard(char[,] mazeMap, int rows, int columns, int startRowIndex, int startColumnIndex)
+        internal AsciiMapBoard(char[,] asciiMap, int rows, int columns, int startRowIndex, int startColumnIndex)
         {
-            _mazeMap = mazeMap;
-            _mazeTraversal = new int[rows, columns];
+            _asciiMap = asciiMap;
+            _mapTraversal = new int[rows, columns];
             _currentRowIndex = startRowIndex;
             _currentColumnIndex = startColumnIndex;
             _rows = rows;
@@ -27,12 +27,12 @@ namespace AsciiMap.Core
 
         public bool CurrentPositionVisited
         {
-            get { return _mazeTraversal[_currentRowIndex, _currentColumnIndex] == PositionVisited; }
+            get { return _mapTraversal[_currentRowIndex, _currentColumnIndex] == PositionVisited; }
         }
 
         public char CurrentElement
         {
-            get { return _mazeMap[_currentRowIndex, _currentColumnIndex]; }
+            get { return _asciiMap[_currentRowIndex, _currentColumnIndex]; }
         }
 
         public bool Move(MoveDirection direction)
@@ -41,7 +41,7 @@ namespace AsciiMap.Core
                 return false;
 
             //mark current position as already visited before moving to next position
-            _mazeTraversal[_currentRowIndex, _currentColumnIndex] = PositionVisited;
+            _mapTraversal[_currentRowIndex, _currentColumnIndex] = PositionVisited;
 
             _currentRowIndex = nextRow;
             _currentColumnIndex = nextColumn;
@@ -60,7 +60,7 @@ namespace AsciiMap.Core
             char? element = null;
 
             if (SimulateMove(direction, out int nextRow, out int nextColumn))
-                element = _mazeMap[nextRow, nextColumn];
+                element = _asciiMap[nextRow, nextColumn];
 
             return element;
         }

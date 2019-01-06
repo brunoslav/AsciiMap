@@ -1,14 +1,13 @@
 ﻿using System;
-using AsciiMap.Core;
 using AsciiMap.Core.Exceptions;
 
 namespace AsciiMap.ConsoleApp
 {
-    public class MazeSolver
+    public class AsciiMapSolver
     {
         private IFileSystem _fileSystem;
 
-        public MazeSolver(IFileSystem fileSystem)
+        public AsciiMapSolver(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;
         }
@@ -44,11 +43,11 @@ namespace AsciiMap.ConsoleApp
 
             try
             {
-                var result = Maze.SolveMaze(fileContent);
+                var result = Core.AsciiMap.FindPath(fileContent);
                 Console.WriteLine(FormattableString.Invariant($"Letters: {result.Letters}"));
                 Console.WriteLine(FormattableString.Invariant($"Path as characters: {result.CharacterPath}"));
             }
-            catch (EmptyMazeBoardException)
+            catch (EmptyMapException)
             {
                 Console.WriteLine("Input board is empty");
                 return;
@@ -58,9 +57,9 @@ namespace AsciiMap.ConsoleApp
                 Console.WriteLine("Multiple starting positions in map");
                 return;
             }
-            catch (InvalidMazePathException impe)
+            catch (InvalidMapPathException impe)
             {
-                Console.WriteLine(FormattableString.Invariant($"Invalid maze, can't determine next step. Current resolved path: {impe.CurrentPath}"));
+                Console.WriteLine(FormattableString.Invariant($"Invalid map, can't determine next step. Current resolved path: {impe.CurrentPath}"));
                 return;
             }
             catch (NoEndingPositionException)

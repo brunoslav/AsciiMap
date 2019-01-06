@@ -3,11 +3,11 @@
 namespace AsciiMap.Core.Exceptions
 {
     [Serializable]
-    public class InvalidMazePathException : Exception
+    public class InvalidMapPathException : Exception
     {
         public string CurrentPath { get; }
 
-        public InvalidMazePathException(string currentPath)
+        public InvalidMapPathException(string currentPath)
         {
             CurrentPath = currentPath;
         }

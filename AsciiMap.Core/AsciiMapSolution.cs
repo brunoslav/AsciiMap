@@ -1,11 +1,11 @@
 ﻿namespace AsciiMap.Core
 {
-    public class MazeSolution
+    public class AsciiMapSolution
     {
         public string Letters { get; }
         public string CharacterPath { get; }
 
-        public MazeSolution(string letters, string characterPath)
+        public AsciiMapSolution(string letters, string characterPath)
         {
             Letters = letters;
             CharacterPath = characterPath;

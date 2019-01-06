@@ -3,9 +3,9 @@
 namespace AsciiMap.Core.Exceptions
 {
     [Serializable]
-    public class EmptyMazeBoardException : Exception
+    public class EmptyMapException : Exception
     {
-        public EmptyMazeBoardException()
+        public EmptyMapException()
         {
         }
     }

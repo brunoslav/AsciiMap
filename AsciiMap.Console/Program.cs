@@ -4,7 +4,7 @@
     {
         public static void Main(string[] args)
         {
-            new MazeSolver(new FileSystem()).Run(args);
+            new AsciiMapSolver(new FileSystem()).Run(args);
         }
     }
 }

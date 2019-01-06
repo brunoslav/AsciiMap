@@ -3,14 +3,14 @@ using AsciiMap.Core.Exceptions;
 
 namespace AsciiMap.Core
 {
-    public class MazeBoardFactory
+    public class AsciiMapBoardFactory
     {
-        public static MazeBoard CreateMazeBoard(string mazeMap)
+        public static AsciiMapBoard CreateBoard(string asciiMap)
         {
-            if (string.IsNullOrEmpty(mazeMap))
-                throw new EmptyMazeBoardException();
+            if (string.IsNullOrEmpty(asciiMap))
+                throw new EmptyMapException();
 
-            var inputRows = mazeMap.Split(Environment.NewLine);
+            var inputRows = asciiMap.Split(Environment.NewLine);
             int columns = inputRows[0].Length;
 
             bool startingPositionFound = false;
@@ -58,7 +58,7 @@ namespace AsciiMap.Core
             if (!endingPositionFound)
                 throw new NoEndingPositionException();
 
-            return new MazeBoard(parsedElements, inputRows.Length, columns, startingRowIndex, startingColumIndex);
+            return new AsciiMapBoard(parsedElements, inputRows.Length, columns, startingRowIndex, startingColumIndex);
         }
 
         private static bool IsAcsii(char c)
