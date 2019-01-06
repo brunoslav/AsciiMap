@@ -4,7 +4,7 @@
 - Find the position of character '@'
 - Follow the path, stop when character 'x' is reached
 
-## Code Challenge
+## Code Challenge Problem
 
 Write a piece of code that takes ASCII map as an input and outputs the letters and the path that algorithm travelled.
 
@@ -61,3 +61,12 @@ K-----|--A
 Expected result: 
 - Letters ```BEEFCAKE```
 - Path as characters ```@---+B||E--+|E|+--F--+|C|||A--|-----K|||+--E--Ex```
+
+## Instructions to run
+
+This code is written using .NET Core 2.2.
+In [release] (https://github.com/brunoslav/AsciiMap/releases/tag/v1.0) folder there are executables for Windows.
+Download the executable and run them in the following way:
+
+AsciiMap.ConsoleApp.exe "path-to-maze-file"
+
