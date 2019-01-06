@@ -65,7 +65,7 @@ Expected result:
 ## Instructions to run
 
 This code is written using .NET Core 2.2.
-In [release] (https://github.com/brunoslav/AsciiMap/releases/tag/v1.0) folder there are executables for Windows.
+In [release](https://github.com/brunoslav/AsciiMap/releases/tag/v1.0) folder there are executables for Windows.
 Download the executable and run them in the following way:
 
 AsciiMap.ConsoleApp.exe "path-to-maze-file"
